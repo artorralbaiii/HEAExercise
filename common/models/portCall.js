@@ -110,6 +110,7 @@ function getVoyages(ports, includeTrans) {
           }
 
           currentPort = ports[j].port;
+          currentEta = ports[j].eta;
           transPorts = transPorts + ' -> ' + currentPort;
           hasOtherRoute = false;
           
