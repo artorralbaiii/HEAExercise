@@ -7,54 +7,42 @@
   <form class="form-inline">
     <div class="form-group">
       <label>Departure Port</label>
-      <input
-        type="text"
-        class="form-control"
-        ng-click="ctrl.isEtdOpen = !ctrl.isEtdOpen"
-        uib-datepicker-popup="{{format}}"
-        ng-model="ctrl.etd"
-        datepicker-options="ctrl.dateOptions"
-        is-open="ctrl.isEtdOpen" />
+      <input type="text" class="form-control" ng-click="ctrl.isEtdOpen = !ctrl.isEtdOpen" uib-datepicker-popup="{{format}}" ng-model="ctrl.etd"
+        datepicker-options="ctrl.dateOptions" is-open="ctrl.isEtdOpen" />
     </div>
 
     <div class="form-group">
       <label>Arrival port</label>
-      <input
-        type="text"
-        class="form-control"
-        ng-click="ctrl.isEtaOpen = !ctrl.isEtaOpen"
-        uib-datepicker-popup="{{format}}"
-        ng-model="ctrl.eta"
-        datepicker-options="ctrl.dateOptions"
-        is-open="ctrl.isEtaOpen" />
+      <input type="text" class="form-control" ng-click="ctrl.isEtaOpen = !ctrl.isEtaOpen" uib-datepicker-popup="{{format}}" ng-model="ctrl.eta"
+        datepicker-options="ctrl.dateOptions" is-open="ctrl.isEtaOpen" />
     </div>
 
-    <button
-      type="submit"
-      class="btn btn-primary"
-      ng-click="ctrl.getRoutes(ctrl.etd, ctrl.eta)">
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+      <input type="checkbox" ng-model="ctrl.transhipment"> Transhipments
+    </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-click="ctrl.getRoutes(ctrl.etd, ctrl.eta, ctrl.transhipment)">
       Find
     </button>
 
   </form>
 
   <!-- Display the list of Voyage data - this is just as an example of displaying the initial data -->
-  <table class="table table-striped"
-         ng-show="ctrl.voyages.length">
+  <table class="table table-striped" ng-show="ctrl.voyages.length">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Port</th>
-        <th>ETA</th>
-        <th>ETD</th>
+        <th>Vessel</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="voyage in ctrl.voyages">
-        <th>{{ voyage.id }}</th>
-        <td>{{ voyage.port }}</td>
-        <td>{{ (voyage.eta | date) || 'N/A' }}</td>
-        <td>{{ (voyage.etd | date) || 'N/A' }}</td>
+      <tr ng-repeat="voyage in ctrl.voyages" ng-if="voyage.portTo != null || voyage.transhipment != null">
+        <td>{{ voyage.transhipment ? voyage.routes : voyage.portFrom + ' -> ' + voyage.portTo }}</td>
+        <td>{{ voyage.transhipment ? voyage.vessels : voyage.vesselFrom }}</td>
       </tr>
     </tbody>
   </table>
