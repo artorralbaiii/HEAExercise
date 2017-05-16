@@ -16,7 +16,7 @@ module.exports = function (PortCall) {
           }
         ]
       },
-      order: 'etd ASC'
+      order: 'eta ASC'
     };
 
     PortCall.find(query)
